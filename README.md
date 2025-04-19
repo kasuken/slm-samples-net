@@ -10,7 +10,6 @@ You can run everything locally with full privacy and no API keys required.
 
 - [LM Studio](https://lmstudio.ai) (macOS, Windows, or Linux)
 - [.NET SDK 9.0+](https://dotnet.microsoft.com/en-us/download)
-- Git
 
 ---
 
