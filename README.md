@@ -61,7 +61,3 @@ No API key is required.
 
 - [LM Studio GitHub](https://github.com/lmstudio-ai/lmstudio)
 - [GGUF format](https://github.com/ggerganov/llama.cpp/blob/master/docs/gguf.md)
-
----
-
-Let me know if you're integrating it with AnythingLLM, a Blazor UI, or a C# backend — I can tailor this README even more specifically.
