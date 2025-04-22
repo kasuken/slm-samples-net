@@ -1,4 +1,6 @@
-﻿var client = new HttpClient(new MyHttpMessageHandler());
+﻿using Microsoft.SemanticKernel.ChatCompletion;
+
+var client = new HttpClient(new MyHttpMessageHandler());
 
 DisplayAsciiArt();
 
@@ -9,7 +11,8 @@ var kernel = Kernel.CreateBuilder()
 Console.WriteLine("Select an example to run:");
 Console.WriteLine("1. Generate a short poem about cats");
 Console.WriteLine("2. Rewrite text into a professional business email");
-Console.Write("Enter your choice (1 or 2): ");
+Console.WriteLine("3. Chat with the AI assistant");
+Console.Write("Enter your choice (1 or 2 or 3): ");
 
 string choice = Console.ReadLine();
 
@@ -18,9 +21,11 @@ switch (choice)
     case "1":
         await RunPoemExample(kernel);
         break;
-
     case "2":
         await RunEmailExample(kernel);
+        break;
+    case "3":
+        await RunChatExample(kernel);
         break;
 
     default:
@@ -101,4 +106,18 @@ static async Task RunEmailExample(Kernel kernel)
     var responseMail = await kernel.InvokeAsync(mailFunction, arguments);
     Console.WriteLine("Response:");
     Console.WriteLine(responseMail.GetValue<string>());
+}
+
+static async Task RunChatExample(Kernel kernel)
+{
+    var chat = kernel.GetRequiredService<IChatCompletionService>();
+    var history = new ChatHistory();
+
+    history.AddUserMessage("Hello, how are you?");
+    history.AddAssistantMessage("I'm fine, thank you! How can I assist you today?");
+    history.AddUserMessage("Can you tell me a joke?");
+    var response = await chat.GetChatMessageContentAsync(history);
+
+    Console.WriteLine("Response:");
+    Console.WriteLine(response);
 }
