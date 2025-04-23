@@ -188,7 +188,7 @@ static async Task RunRagExample(Kernel kernel)
 static async Task RunHoroscopeExample(Kernel kernel)
 {
     Console.WriteLine("Enter your zodiac sign (e.g., Aries, Taurus, Gemini, etc.):");
-    string zodiacSign = Console.ReadLine()?.Trim();
+    var zodiacSign = Console.ReadLine()?.Trim();
 
     if (string.IsNullOrEmpty(zodiacSign))
     {
@@ -197,7 +197,8 @@ static async Task RunHoroscopeExample(Kernel kernel)
     }
 
     // Define the JSON schema for the horoscope in the prompt
-    string horoscopePrompt = """
+    var horoscopePrompt = """
+        Act as a professional astrologer with 20 years of experience.
         Generate tomorrow's horoscope for the {{$zodiacSign}} zodiac sign.
     """;
 
@@ -205,13 +206,13 @@ static async Task RunHoroscopeExample(Kernel kernel)
     {
         Temperature = 0.7,
         MaxTokens = 2000,
-#pragma warning disable SKEXP0010
+        #pragma warning disable SKEXP0010
         ResponseFormat = typeof(HoroscopePrediction)
     };
 
     var horoscopeFunction = kernel.CreateFunctionFromPrompt(horoscopePrompt, executionSettings);
 
-    KernelArguments arguments = new KernelArguments
+    var arguments = new KernelArguments
     {
         { "zodiacSign", zodiacSign }
     };
@@ -227,7 +228,7 @@ static async Task RunHoroscopeExample(Kernel kernel)
         var horoscopePrediction = JsonSerializer.Deserialize<HoroscopePrediction>(jsonResponse);
 
         // Pretty print the JSON
-        string formattedJson = JsonSerializer.Serialize(horoscopePrediction, new JsonSerializerOptions { WriteIndented = true });
+        var formattedJson = JsonSerializer.Serialize(horoscopePrediction, new JsonSerializerOptions { WriteIndented = true });
 
         Console.WriteLine("\nHoroscope (JSON format):");
         Console.WriteLine(formattedJson);
